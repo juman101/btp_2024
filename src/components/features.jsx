@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 export const Features = (props) => {
-  const handleIconClick = (title) => {
-    // Do something when the icon is clicked, for example:
-    console.log(`Icon clicked for ${title}`);
+  // State to track the clicked icon
+  const [clickedIcon, setClickedIcon] = useState(null);
+
+  // Function to handle click event on icon
+  const handleClick = (title) => {
+    setClickedIcon(title);
   };
 
   return (
@@ -16,11 +19,16 @@ export const Features = (props) => {
           {props.data
             ? props.data.map((d, i) => (
                 <div key={`${d.title}-${i}`} className="col-xs-6 col-md-3">
-                  <a onClick={() => handleIconClick(d.title)} style={{ cursor: 'pointer'}}>
-                    <i className={d.icon} style={{ transition: 'transform 0.3s' }}></i>
+                  {/* Use anchor tag to navigate to the desired page */}
+                  <a
+                    href={`/locationpg/${d.title.toLowerCase()}`}
+                    style={{ textDecoration: "none", color: clickedIcon === d.title ? "red" : "black" }}
+                    onClick={() => handleClick(d.title)}
+                  >
+                    <i className={d.icon} style={{ transition: "transform 0.3s" }}></i>
+                    <h3>{d.title}</h3>
+                    <p>{d.text}</p>
                   </a>
-                  <h3>{d.title}</h3>
-                  <p>{d.text}</p>
                 </div>
               ))
             : "Loading..."}
@@ -28,7 +36,7 @@ export const Features = (props) => {
       </div>
       <style jsx>{`
         i:hover {
-          transform: scale(1.5); /* Adjust the scale factor as needed */
+          transform: scale(1.5);
         }
       `}</style>
     </div>
